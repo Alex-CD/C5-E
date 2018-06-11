@@ -19,6 +19,7 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 
+
 # Gradle:
 .idea/**/gradle.xml
 .idea/**/libraries
@@ -166,5 +167,7 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# secret keys
+*.keys
 
 # End of https://www.gitignore.io/api/python,pycharm
