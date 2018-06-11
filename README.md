@@ -5,7 +5,7 @@ Designed to be usable in the steam overlay, so you don't have to tab out of your
 
 Doesn't directly interact with the game - Relies on trust and honesty from players, who want a fun, but not overly competitive game!
 
-Built with Flask, using pusher as a backend.
+Built with Node.js and Pusher
 
 Created by [Alex Clarke](https://twitter.com/AlexCDev).
 
