@@ -168,6 +168,6 @@ venv.bak/
 .mypy_cache/
 
 # secret keys
-*.keys
+keys.py
 
 # End of https://www.gitignore.io/api/python,pycharm
