@@ -9,7 +9,7 @@ module.exports = function(router) {
     });
 
 
-    // Join existing lobby
+    // Join game with a code
     router.get('/game/:gameId', function (req, res, next) {
         res.writeHead(200, {"Content-Type": "text/html"});
         res.write("Join existing lobby");
