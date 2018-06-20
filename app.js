@@ -1,27 +1,23 @@
 const express = require("express");
 const app = express();
 
-const dbUrl = "mongodb://localhost:27107/db";
+const dbUrl = "mongodb://localhost:27017";
 const mongoClient = require("mongodb").MongoClient;
 
-// Init mongoDB connection
-mongoClient.connect(dbUrl, function(err, db){
-    if(err){
-        console.log("FATAL: Unable to connect to mongodb.");
-        process.exit(0);
-    }
+// Init MongoDB connection
+mongoClient.connect(dbUrl, function(err, db) {
+    if (err) throw err;
 
-    mongoClient.close();
+
+        // Routing
+        require('./routes/route')(app, db);
+
+        // Default 404
+        app.use(function (req, res, next) {
+            res.status(404).send("Sorry can't find that!")
+        });
+
+
+        app.listen(8888, () => console.log("App listening on port 8888"));
+
 });
-
-
-// Routing
-app.use('/', require('./routes/route'));
-
-app.use(function (req, res, next) {
-    res.status(404).send("Sorry can't find that!")
-});
-
-
-app.listen(8888, () => console.log("App listening on port 8888"));
-
