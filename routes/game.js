@@ -1,19 +1,19 @@
-var express = require('express');
-var router = express.Router({});
-var app = express();
+
+module.exports = function(router) {
+
+    // Load game page
+    router.get('/game', function (req, res, next) {
+        res.writeHead(200, {"Content-Type": "text/html"});
+        res.write("Load game page");
+        res.end();
+    });
 
 
-//Get homepage
-app.get('/', function(req, res, next){
+    // Join existing lobby
+    router.get('/game/:gameId', function (req, res, next) {
+        res.writeHead(200, {"Content-Type": "text/html"});
+        res.write("Join existing lobby");
+        res.end();
+    });
 
-});
-
-//Get challenges
-app.get('/challenges', function(req, res, next){
-
-});
-
-
-
-
-module.exports = router;
+};

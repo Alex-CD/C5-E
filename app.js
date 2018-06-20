@@ -6,12 +6,8 @@ const
 
 
 
-
 // Routing
-app.use('/', require("./routes/index"));
-app.use('/game', require("./routes/game"));
-app.use('/lobby', require("./routes/lobby"));
-
+app.use('/', require('./routes/index'));
 
 app.use(function (req, res, next) {
     res.status(404).send("Sorry can't find that!")

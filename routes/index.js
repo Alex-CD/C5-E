@@ -1,17 +1,26 @@
-var express = require('express');
-var router = express.Router({});
-var app = express();
+const express = require('express');
+const router = express.Router({});
 
-
-//Get homepage
-app.get('/', function(req, res, next){
-
+// Homepage
+router.get('/', function(req, res, next){
+    res.writeHead(200, {"Content-Type": "text/html"});
+    res.write("Homepage");
+    res.end();
 });
 
-//Get About page
-app.get('/about', function(req, res, next){
-
+// About page
+router.get('/about', function(req, res, next){
+    res.writeHead(200, {"Content-Type": "text/html"});
+    res.write("About");
+    res.end();
 });
+
+
+
+// Adding routes from other files
+require("./game")(router);
+require("./lobby")(router);
+
 
 
 module.exports = router;
