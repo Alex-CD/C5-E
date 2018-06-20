@@ -1,5 +1,5 @@
 
-module.exports = function(router) {
+module.exports = function(router, db) {
 
     // Load game page
     router.get('/game', function (req, res, next) {

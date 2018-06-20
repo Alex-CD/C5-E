@@ -1,5 +1,5 @@
 
-module.exports = function(router) {
+module.exports = function(router, db) {
 
     // Load lobby page
     router.get('/lobby', function (req, res, next) {

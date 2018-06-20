@@ -4,7 +4,7 @@ const app = express();
 const dbUrl = "mongodb://localhost:27107/db";
 const mongoClient = require("mongodb").MongoClient;
 
-
+// Init mongoDB connection
 mongoClient.connect(dbUrl, function(err, db){
     if(err){
         console.log("FATAL: Unable to connect to mongodb.");
@@ -14,8 +14,9 @@ mongoClient.connect(dbUrl, function(err, db){
     mongoClient.close();
 });
 
+
 // Routing
-app.use('/', require('./routes/index'));
+app.use('/', require('./routes/route'));
 
 app.use(function (req, res, next) {
     res.status(404).send("Sorry can't find that!")
