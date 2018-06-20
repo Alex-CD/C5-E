@@ -1,10 +1,18 @@
-const
-    http = require("http"),
-    path = require("path"),
-    express = require("express"),
-    app = express();
+const express = require("express");
+const app = express();
+
+const dbUrl = "mongodb://localhost:27107/db";
+const mongoClient = require("mongodb").MongoClient;
 
 
+mongoClient.connect(dbUrl, function(err, db){
+    if(err){
+        console.log("FATAL: Unable to connect to mongodb.");
+        process.exit(0);
+    }
+
+    mongoClient.close();
+});
 
 // Routing
 app.use('/', require('./routes/index'));
