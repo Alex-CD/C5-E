@@ -1,4 +1,5 @@
-module.exports = function(app, db){
+module.exports = function(app, db, partyColl, accountColl){
+
 
     const express = require('express');
     const router = express.Router({});

@@ -1,4 +1,3 @@
-
 module.exports = function(router, db) {
 
     // Homepage
@@ -15,4 +14,4 @@ module.exports = function(router, db) {
         res.end();
     });
 
-}
+};
