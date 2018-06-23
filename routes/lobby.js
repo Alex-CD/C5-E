@@ -19,10 +19,13 @@ module.exports = function(router, db, utils){
             .exists().withMessage("No Lobby name supplied.")
             .isAlphanumeric().withMessage("Lobby name must be alphanumeric.")
             .isLength({ max: 20}).withMessage("Lobby name must be <20 characters in length.")
-            .custom( value => { return lobbies.find({lobbyID: value}).count().then(count =>{
-                return (count === 0);
-            })
-            }).withMessage("Room name already taken!")],
+            .custom(
+                value => {
+                    return lobbies.find({lobbyID: value}).count().then(
+                        count => {
+                            return (count === 0);
+                        })
+                }).withMessage("Room name already taken!")],
         function (req, res){
 
             const errors = validationResult(req);
@@ -37,12 +40,22 @@ module.exports = function(router, db, utils){
 
 
     // Adding civ to lobby
-    router.post("/lobby/createCiv", function(req, res, next){
+    router.post("/lobby/createCiv", [
+            check('playerName')
+                .exists().withMessage("No player name supplied")
+                .isAlphanumeric().withMessage("Player name invalid")
+                .isLength({max: 20}).withMessage("Player name must be shorter than 21 chars"),
+            check('civName')
+                .exists().withMessage("No civ name supplied")
+                .isAlphanumeric().withMessage("Civ name invalid")
+                .isLength({max: 20}).withMessage("Civ name too long"),
+            check('clientID')
+                .exists().withMessage("No clientID supplied")],
 
-    });
+        function(req, res, next){
 
-    // Claiming Civ
 
+        });
 
     // Getting Lobby data
     router.get('/lobby/:lobbyID',
