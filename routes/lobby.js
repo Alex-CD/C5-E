@@ -23,17 +23,17 @@ module.exports = function(router, db, utils){
                 return (count === 0);
             })
             }).withMessage("Room name already taken!")],
-            function (req, res){
+        function (req, res){
 
-        const errors = validationResult(req);
-        if(!errors.isEmpty()){
-            return res.status(422).json({ errors: errors.mapped() });
-        }
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
+                return res.status(422).json({ errors: errors.mapped() });
+            }
 
-        lobbies.insert({lobbyID: req.params['lobbyID']});
+            lobbies.insert({lobbyID: req.params['lobbyID']});
 
-        return res.status(201).json( req.params );
-    });
+            return res.status(201).json( req.params );
+        });
 
 
     // Adding civ to lobby
@@ -55,12 +55,12 @@ module.exports = function(router, db, utils){
             })}).withMessage("Lobby does not exist.")
         ],
         function (req, res, next) {
-        const errors = validationResult(req);
+            const errors = validationResult(req);
 
-        if(!errors.isEmpty()){
-            return res.status(422).json({ errors: errors.mapped() });
-        }
+            if(!errors.isEmpty()){
+                return res.status(422).json({ errors: errors.mapped() });
+            }
 
-        lobbyUtils.getLobby(lobbies, req.params.lobbyID, res);
-    });
+            lobbyUtils.getLobby(lobbies, req.params.lobbyID, res);
+        });
 };
