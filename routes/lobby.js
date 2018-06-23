@@ -1,23 +1,25 @@
 const {check, validationResult} = require("express-validator/check");
 
 
-module.exports = function(router, db){
-    const games = db.collection("games");
-
+module.exports = function(router, db, utils){
+    const lobbies = db.collection("lobby");
+    const lobbyUtils = require.main.require('./util/lobby');
 
     // Load lobby page
     router.get('/lobby', function (req, res, next) {
         res.writeHead(200, {"Content-Type": "text/html"});
-        res.write("Load lobby page");
+        res.write("Load lobby page here");
         res.end();
     });
 
+
     // Generating new lobby
-    router.post('/lobby/:gameId', [check('gameId')
+    router.post('/lobby/:lobbyID',
+        [check('lobbyID')
             .exists().withMessage("No Lobby name supplied.")
             .isAlphanumeric().withMessage("Lobby name must be alphanumeric.")
             .isLength({ max: 20}).withMessage("Lobby name must be <20 characters in length.")
-            .custom( value => { return games.find({gameId: value}).count().then(count =>{
+            .custom( value => { return lobbies.find({lobbyID: value}).count().then(count =>{
                 return (count === 0);
             })
             }).withMessage("Room name already taken!")],
@@ -28,10 +30,11 @@ module.exports = function(router, db){
             return res.status(422).json({ errors: errors.mapped() });
         }
 
-        games.insert({gameId: req.params['gameId']});
+        lobbies.insert({lobbyID: req.params['lobbyID']});
 
         return res.status(201).json( req.params );
     });
+
 
     // Adding civ to lobby
     router.post("/lobby/createCiv", function(req, res, next){
@@ -41,8 +44,23 @@ module.exports = function(router, db){
     // Claiming Civ
 
 
-    // Getting existing lobby
-    router.get('/lobby/:gameId', function (req, res, next) {
+    // Getting Lobby data
+    router.get('/lobby/:lobbyID',
+        [check('lobbyID')
+            .exists().withMessage("No Lobby name supplied.")
+            .isAlphanumeric().withMessage("Lobby name must be alphanumeric.")
+            .isLength({ max: 20}).withMessage("Lobby name too long!")
+            .custom( value => { return lobbies.find({lobbyID: value}).count().then(count =>{
+                return (count > 0 );
+            })}).withMessage("Lobby does not exist.")
+        ],
+        function (req, res, next) {
+        const errors = validationResult(req);
 
+        if(!errors.isEmpty()){
+            return res.status(422).json({ errors: errors.mapped() });
+        }
+
+        lobbyUtils.getLobby(lobbies, req.params.lobbyID, res);
     });
 };
