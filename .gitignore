@@ -78,6 +78,7 @@ typings/
 .idea/**/sqlDataSources.xml
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
+secret.js
 
 # Gradle:
 .idea/**/gradle.xml
@@ -128,3 +129,5 @@ fabric.properties
 
 
 # End of https://www.gitignore.io/api/node,webstorm
+
+
