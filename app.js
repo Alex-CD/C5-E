@@ -1,24 +1,43 @@
 const express = require("express");
-const app = express();
+const app = express({});
 const development_env = true;
 
 const dbUrl = "mongodb://localhost:27017/c5e";
-const mongoClient = require("mongodb").MongoClient;
+const mongoose = require('mongoose');
+
+const session = require('express-session');
+const secret = require('./secret');
 
 
-// Init MongoDB connection
-mongoClient.connect(dbUrl, function(err, client) {
+const lobbySchema = require('./schema/lobby');
 
-    if (err) throw err;
+sessionSettings = {
+    secret: secret.SessionKey,
+    cookie: {secure: true},
+    resave: false,
+    saveUninitialized: false
+};
+
+mongoose.connect(dbUrl, { useNewUrlParser: true} ).then();
+
+const db = mongoose.connection;
+
+db.once('open', function() {
+
+    if(development_env){
+        db.dropDatabase();
+            console.log('DEV lobbies dropped');
 
 
-    const db = client.db('c5e');
+        sessionSettings.cookie.secure = false;
+    }
 
-    if(development_env){db.dropDatabase();}
+    app.use(session(sessionSettings));
+
 
 
     // Routing
-    require('./routes/route')(app, db);
+    require('./routes/route')(app, lobbySchema);
 
 
     // Default 404
