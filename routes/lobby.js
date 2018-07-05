@@ -1,7 +1,5 @@
 module.exports = function(router, schema) {
 
-    const mongoose = require('mongoose');
-
     const {check, validationResult} = require("express-validator/check");
     const lobbyUtils = require.main.require('./util/lobby');
 
@@ -54,7 +52,6 @@ module.exports = function(router, schema) {
             }
 
 
-            console.log(req.params.lobbyID + req.query.playerID + req.query.civName + req.sessionID + "");
             lobbyUtils.addPlayer(req.params.lobbyID, req.query.playerID, req.query.civName, req.sessionID, res, schema);
 
         });

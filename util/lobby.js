@@ -49,6 +49,10 @@ module.exports.addPlayer = function addPlayer(lobbyID, playerID, civName, sessio
     });
 };
 
+module.exports.removePlayer = function removePlayer( lobbyID, playerID, schema){
+
+};
+
 //////////////////////
 // Internal methods //
 //////////////////////
@@ -60,7 +64,6 @@ function lobbyExists(lobbyID, res, schema, callback){
             callback();
         }
         else{
-            console.log(lobbyID);
             return res.status(409).json({errors: "Lobby does not exist."})
         }
     });
