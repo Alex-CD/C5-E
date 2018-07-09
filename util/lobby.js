@@ -7,6 +7,8 @@ module.exports.createLobby = function createLobby(params, schema, res){
     lobbyNotExists(params.lobbyID, res, schema, ()=>{
         const lobby = new schema.lobby({lobbyID: params['lobbyID']});
         lobby.save( err => { console.log(err)});
+
+
         return res.status(201).json(params);
     })
 };
@@ -65,7 +67,17 @@ module.exports.removePlayer = function removePlayer(lobbyID, sessionID, res, sch
 };
 
 
+module.exports.startGame = function startGame(lobbyID, sessionID, res, schema){
+    schema.lobby.findOneAndUpdate({ lobbyID: lobbyID}, { inProgress: true },
+        (err) => {
+            if (err) {
+                console.log(err);
+                res.status(404).json({errors: err.mapped()});
+            }
 
+            res.status(201).json(lobbyID);
+        })
+};
 
 //////////////////////
 // Internal methods //

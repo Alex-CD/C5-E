@@ -56,6 +56,17 @@ module.exports = function(router, schema) {
 
         });
 
+    // Start game (turn lobby into game)
+    router.post('/lobby/:lobbyID/startGame',
+        [
+            check('lobbyID')
+                .isAlphanumeric().withMessage("lobbyID not alphanumeric")
+                .isLength({max: 20}).withMessage("lobbyID too long")],
+        (req, res)=>{
+
+            lobbyUtils.startGame(req.params.lobbyID, req.params.sessionID, res, schema)
+        });
+
 
     // Getting Lobby data
     router.get('/lobby/:lobbyID',
@@ -64,16 +75,16 @@ module.exports = function(router, schema) {
                 .exists().withMessage("No Lobby name supplied.")
                 .isAlphanumeric().withMessage("Lobby name must be alphanumeric.")
                 .isLength({max: 20}).withMessage("Lobby name too long!")],
-            function (req, res, next) {
-                const errors = validationResult(req);
+        function (req, res, next) {
+            const errors = validationResult(req);
 
-                if (!errors.isEmpty()) {
-                    return res.status(422).json({errors: errors.mapped()});
-                }
+            if (!errors.isEmpty()) {
+                return res.status(422).json({errors: errors.mapped()});
+            }
 
-                lobbyUtils.getLobby(req.params, res, schema);
+            lobbyUtils.getLobby(req.params, res, schema);
 
-            });
+        });
 
     router.post('/lobby/:lobbyID/deleteCiv', [
         check('lobbyID')
