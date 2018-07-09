@@ -49,9 +49,23 @@ module.exports.addPlayer = function addPlayer(lobbyID, playerID, civName, sessio
     });
 };
 
-module.exports.removePlayer = function removePlayer( lobbyID, playerID, schema){
 
+module.exports.removePlayer = function removePlayer(lobbyID, sessionID, res, schema){
+    lobbyExists(lobbyID, res, schema, ()=>{
+        schema.lobby.findOneAndUpdate({ lobbyID: lobbyID },
+            {$pull: {players: { sessionID: sessionID}}},
+            (err) => {
+                if(err){
+                    console.log(err);
+                    res.status(404).json({ errors: err.mapped()});
+                }
+
+                res.status(201).json(lobbyID)
+            });})
 };
+
+
+
 
 //////////////////////
 // Internal methods //

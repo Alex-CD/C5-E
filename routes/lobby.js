@@ -73,5 +73,24 @@ module.exports = function(router, schema) {
 
                 lobbyUtils.getLobby(req.params, res, schema);
 
-            })
+            });
+
+    router.post('/lobby/:lobbyID/deleteCiv', [
+        check('lobbyID')
+            .isAlphanumeric().withMessage("Lobby name must be alphanumeric.")
+            .isLength({max: 20}).withMessage("Lobby name too long!")
+    ], function (req, res){
+
+        const errors = validationResult(req);
+
+
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({errors: errors.mapped()});
+        }
+
+        lobbyUtils.removePlayer(req.params.lobbyID, req.sessionID, res, schema);
+
+
+    });
 };
