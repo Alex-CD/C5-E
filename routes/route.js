@@ -1,4 +1,4 @@
-module.exports = function(app, lobbySchema){
+module.exports = function(app, lobbySchema, pusher, chatkit){
 
 
     const express = require('express');
@@ -6,9 +6,8 @@ module.exports = function(app, lobbySchema){
 
     // Adding routes from other files
     require("./index")(router);
-    require("./game")(router);
+    require("./game")(router, pusher, chatkit);
     require("./lobby")(router, lobbySchema);
-
 
     app.use(router);
 };

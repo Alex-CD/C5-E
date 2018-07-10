@@ -1,4 +1,4 @@
-module.exports = function(router, db) {
+module.exports = function(router) {
 
     // Homepage
     router.get('/', function (req, res, next) {
@@ -13,5 +13,8 @@ module.exports = function(router, db) {
         res.write("About");
         res.end();
     });
+
+
+
 
 };

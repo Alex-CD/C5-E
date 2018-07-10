@@ -1,7 +1,7 @@
 
-module.exports = function(router, db) {
+module.exports = function(router, db, chatkit, pusher) {
 
-    // Load game page
+    // Load game page (redirect to lobby)
     router.get('/game', function (req, res, next) {
         res.writeHead(200, {"Content-Type": "text/html"});
         res.write("Load game page");
@@ -9,7 +9,7 @@ module.exports = function(router, db) {
     });
 
 
-    // Join game with a code
+    // get game data
     router.get('/game/:gameId', function (req, res, next) {
         res.writeHead(200, {"Content-Type": "text/html"});
         res.write("Join existing lobby");

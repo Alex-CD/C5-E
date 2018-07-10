@@ -1,4 +1,4 @@
-module.exports = function(router, schema) {
+module.exports = function(router, schema, pusher) {
 
     const {check, validationResult} = require("express-validator/check");
     const lobbyUtils = require.main.require('./util/lobby');
@@ -52,7 +52,7 @@ module.exports = function(router, schema) {
             }
 
 
-            lobbyUtils.addPlayer(req.params.lobbyID, req.query.playerID, req.query.civName, req.sessionID, res, schema);
+            lobbyUtils.addPlayer(req.params.lobbyID, req.query.playerID, req.query.civName, req.sessionID, res, schema, pusher);
 
         });
 
@@ -100,7 +100,7 @@ module.exports = function(router, schema) {
             return res.status(422).json({errors: errors.mapped()});
         }
 
-        lobbyUtils.removePlayer(req.params.lobbyID, req.sessionID, res, schema);
+        lobbyUtils.removePlayer(req.params.lobbyID, req.sessionID, res, schema, pusher);
 
 
     });

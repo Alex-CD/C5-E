@@ -1,13 +1,15 @@
+// Secret keys
+const secret = require('./secret');
+
+/////////////
+// Express //
+/////////////
+
 const express = require("express");
 const app = express({});
 const development_env = true;
 
-const dbUrl = "mongodb://localhost:27017/c5e";
-const mongoose = require('mongoose');
-
 const session = require('express-session');
-const secret = require('./secret');
-
 
 const lobbySchema = require('./schema/lobby');
 
@@ -18,9 +20,40 @@ sessionSettings = {
     saveUninitialized: false
 };
 
-mongoose.connect(dbUrl, { useNewUrlParser: true} ).then();
 
+//////////////
+// Mongoose //
+//////////////
+
+const dbUrl = "mongodb://localhost:27017/c5e";
+const mongoose = require('mongoose');
+
+
+//////////
+//Pusher//
+//////////
+
+
+const Pusher = require('pusher');
+const Chatkit = require('@pusher/chatkit-server');
+
+const chatkit = new Chatkit.default({
+    instanceLocator: secret.chatkit_instance,
+    key: secret.chatkit_key
+});
+
+
+const pusher = new Pusher({
+    appId: secret.pusher_app_id,
+    key: secret.pusher_key,
+    secret: secret.pusher_secret,
+    cluster: secret.pusher_cluster
+});
+
+
+mongoose.connect(dbUrl, { useNewUrlParser: true} ).then();
 const db = mongoose.connection;
+
 
 db.once('open', function() {
 
@@ -35,9 +68,8 @@ db.once('open', function() {
     app.use(session(sessionSettings));
 
 
-
     // Routing
-    require('./routes/route')(app, lobbySchema);
+    require('./routes/route')(app, lobbySchema, pusher, chatkit);
 
 
     // Default 404

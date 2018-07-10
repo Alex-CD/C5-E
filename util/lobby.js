@@ -31,7 +31,7 @@ module.exports.getLobby = function getLobby(params, res, schema){
 
 
 
-module.exports.addPlayer = function addPlayer(lobbyID, playerID, civName, sessionID, res, schema){
+module.exports.addPlayer = function addPlayer(lobbyID, playerID, civName, sessionID, res, schema, pusher){
     schema.player.create({playerID: playerID, sessionID: sessionID, civName: civName }, (err, toAdd )=>{
         if (err) {
             console.log(err);
@@ -45,6 +45,9 @@ module.exports.addPlayer = function addPlayer(lobbyID, playerID, civName, sessio
                     res.write(err);
                 }
 
+                // Notifying clients of lobby change
+                pusher.trigger(lobbyID+"-lobby", 'state-update', {});
+
                 res.status(201).json(lobbyID);
             }
         );
@@ -52,7 +55,7 @@ module.exports.addPlayer = function addPlayer(lobbyID, playerID, civName, sessio
 };
 
 
-module.exports.removePlayer = function removePlayer(lobbyID, sessionID, res, schema){
+module.exports.removePlayer = function removePlayer(lobbyID, sessionID, res, schema, pusher){
     lobbyExists(lobbyID, res, schema, ()=>{
         schema.lobby.findOneAndUpdate({ lobbyID: lobbyID },
             {$pull: {players: { sessionID: sessionID}}},
@@ -62,18 +65,24 @@ module.exports.removePlayer = function removePlayer(lobbyID, sessionID, res, sch
                     res.status(404).json({ errors: err.mapped()});
                 }
 
+                // Notifying clients of lobby change
+                pusher.trigger(lobbyID+"-lobby", 'state-update', {});
+
                 res.status(201).json(lobbyID)
             });})
 };
 
 
-module.exports.startGame = function startGame(lobbyID, sessionID, res, schema){
+module.exports.startGame = function startGame(lobbyID, sessionID, res, schema, pusher){
     schema.lobby.findOneAndUpdate({ lobbyID: lobbyID}, { inProgress: true },
         (err) => {
             if (err) {
                 console.log(err);
                 res.status(404).json({errors: err.mapped()});
             }
+
+            // Notifying clients
+            pusher.trigger(lobbyID+"-lobby", 'game-start', {});
 
             res.status(201).json(lobbyID);
         })

@@ -4,6 +4,7 @@
   "description": "A web-based metagame for Civ5. Makes your Civ Sessions better!  Designed to be usable in the steam overlay, so you don't have to tab out of your game.",
   "main": "index.js",
   "dependencies": {
+    "@pusher/chatkit-server": "^0.12.1",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "express-validator": "^5.2.0",

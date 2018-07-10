@@ -4,8 +4,8 @@ const mongoose = require("mongoose");
 /////////////
 
 const playerSchema = new mongoose.Schema({
-    playerID: {type: String, required: true},
-    sessionID: {type: String, required: true},
+    playerID: {type: String},
+    sessionID: {type: String},
     civName: {type: String, required: true}
 });
 
@@ -16,7 +16,8 @@ const playerSchema = new mongoose.Schema({
 const lobbySchema = new mongoose.Schema({
     lobbyID: {type: String, required: true},
     players: [playerSchema],
-    creationDate: {type: Date, default: Date.now}
+    creationDate: {type: Date, default: Date.now},
+    inProgress: {type: Boolean, default: false}
 });
 
 /////////////
