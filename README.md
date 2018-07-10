@@ -1,13 +1,13 @@
 # C5-E
-A web-based metagame for Civ5. Makes your Civ Sessions better! 
-Designed to be usable in the steam overlay, so you don't have to tab out of your game.
+
+A web-based metagame system for Civ5. Makes your Civ Sessions better! 
+C5-E doesn't interact with your game directly - it's designed for use on the steam overlay.
 
 
-Doesn't directly interact with the game - Relies on trust and honesty from players, who want a fun, but not overly competitive game!
+Civilisation 5 is owned by 2K Games, which C5-E has no affiliation with.
+
 
 Built with Node.js and Pusher
-
-Created by [Alex Clarke](https://twitter.com/AlexCDev).
 
 
 ## Features
@@ -34,12 +34,13 @@ Join an alliance! You'll be able to vote on actions to be taken by the entire gr
 
 
 #### 3. Wildcards
-Balance your game with wildcards - Random challenges to complete.
-Assign more wildwards to more experienced players.
+Balance your game with wildcards - Randomly assigned challenges to complete during your game.
+Assign more wildwards to more experienced players as a handicap.
+
 
 #### 4. Randomised Win Conditions
-It'll pick your win condition for you.
 
+It'll pick your win condition for you.
 Who's ready for culture victory Babylon?
 
 #### (stretch goal) 5. Permanent Session storage
@@ -47,7 +48,7 @@ Who's ready for culture victory Babylon?
 Allows you to store and resume sessions
 
 #### (stretch goal) 6. Drinking game mode
-Adds alcoholic beverages
+Adds alcoholic beverages ;)
 
 ## Installation and setup
 
