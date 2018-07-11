@@ -33,7 +33,7 @@ module.exports.joinSlot = function joinSlot(lobbyID, playerID, civName, sessionI
                 }
 
                 // Notifying clients of lobby change
-                pusher.trigger(lobbyID+"-lobby", 'state-update', {});
+                pusher.trigger(lobbyID+"-game", 'client-notify-game-add-player', {civName: civName, playerID: playerID, sessionID: sessionID});
 
                 res.status(201).json(lobbyID);
             }
@@ -58,7 +58,7 @@ module.exports.leaveSlot = function leaveSlot(lobbyID, sessionID, res, schema, p
             }
 
             // Notifying clients of lobby change
-            pusher.trigger(lobbyID+"-lobby", 'state-update', {});
+            pusher.trigger(lobbyID+"-game", 'client-notify-game-remove-player', { sessionID: sessionID });
 
             res.status(201).json(lobbyID)
         });

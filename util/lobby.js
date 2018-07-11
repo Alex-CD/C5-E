@@ -8,7 +8,6 @@ module.exports.createLobby = function createLobby(params, schema, res){
         const lobby = new schema.lobby({lobbyID: params['lobbyID']});
         lobby.save( err => { console.log(err)});
 
-
         return res.status(201).json(params);
     })
 };
@@ -46,7 +45,7 @@ module.exports.addPlayer = function addPlayer(lobbyID, playerID, civName, sessio
                 }
 
                 // Notifying clients of lobby change
-                pusher.trigger(lobbyID+"-lobby", 'state-update', {});
+                pusher.trigger(lobbyID+"-lobby", 'client-notify-lobby-add-player', {sessionID: sessionID, playerID: playerID, civName: civName});
 
                 res.status(201).json(lobbyID);
             }
@@ -66,7 +65,7 @@ module.exports.removePlayer = function removePlayer(lobbyID, sessionID, res, sch
                 }
 
                 // Notifying clients of lobby change
-                pusher.trigger(lobbyID+"-lobby", 'state-update', {});
+                pusher.trigger(lobbyID+"-lobby", 'client-notify-lobby-remove-player', {sessionID: sessionID});
 
                 res.status(201).json(lobbyID)
             });})
@@ -82,7 +81,7 @@ module.exports.startGame = function startGame(lobbyID, sessionID, res, schema, p
             }
 
             // Notifying clients
-            pusher.trigger(lobbyID+"-lobby", 'game-start', {});
+            pusher.trigger(lobbyID+"-lobby", 'client-notify-lobby-game-start', {});
 
             res.status(201).json(lobbyID);
         })

@@ -64,7 +64,7 @@ module.exports = function(router, schema, pusher) {
                 .isLength({max: 20}).withMessage("lobbyID too long")],
         (req, res)=>{
 
-            lobbyUtils.startGame(req.params.lobbyID, req.params.sessionID, res, schema)
+            lobbyUtils.startGame(req.params.lobbyID, req.params.sessionID, res, schema, pusher)
         });
 
 
