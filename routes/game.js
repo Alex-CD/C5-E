@@ -74,4 +74,22 @@ module.exports = function(router, schema, chatkit, pusher) {
             gameUtils.joinSlot(req.params.lobbyID, req.query.playerID, req.query.civName, req.sessionID, res, schema, pusher);
 
         });
+
+
+
+    // Fetch joinable rooms
+    router.get("lobby/:lobbyID/getRooms",[
+        check('lobbyID')
+            .isAlphanumeric().withMessage("lobbyID not alphanumeric")
+            .isLength({max: 20}).withMessage("lobbyID too long")],
+        function (req, res, next){
+
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+                return res.status(422).json({errors: errors.mapped()});
+            }
+
+            gameUtils.getRooms(req.params.lobbyID, req.sessionID, res, schema, chatkit)
+        })
 };

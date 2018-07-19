@@ -65,9 +65,23 @@ module.exports.leaveSlot = function leaveSlot(lobbyID, sessionID, res, schema, p
 };
 
 
+module.exports.getRooms = function getRooms(lobbyID, sessionID, res, schema, chatkit){
+    chatkit.getUserJoinableRooms({ userId: sessionID})
+        .then((rooms) => {
 
-
-
+            //Removing games from other lobbies from list
+            lobbyID.length().then((err, length) => {
+                for (let i = 0; i < rooms.length; i++) {
+                    if (rooms[i].name.substring(0, length - 1) !== lobbyID) {
+                        rooms.splice(i, 1);
+                    }
+                }
+                res.status(200).json(rooms);
+            }).catch((err) => {
+                console.log(err);
+            });
+        })
+};
 
 
 //////////////////////
