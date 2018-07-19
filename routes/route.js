@@ -7,7 +7,7 @@ module.exports = function(app, lobbySchema, pusher, chatkit){
     // Adding routes from other files
     require("./index")(router);
     require("./game")(router, lobbySchema, pusher, chatkit);
-    require("./lobby")(router, lobbySchema, pusher);
+    require("./lobby")(router, lobbySchema, pusher, chatkit);
 
     app.use(router);
 };

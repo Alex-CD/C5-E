@@ -72,7 +72,7 @@ module.exports.removePlayer = function removePlayer(lobbyID, sessionID, res, sch
 };
 
 
-module.exports.startGame = function startGame(lobbyID, sessionID, res, schema, pusher){
+module.exports.startGame = function startGame(lobbyID, sessionID, res, schema, pusher, chatkit){
     schema.lobby.findOneAndUpdate({ lobbyID: lobbyID}, { inProgress: true },
         (err) => {
             if (err) {
@@ -80,8 +80,12 @@ module.exports.startGame = function startGame(lobbyID, sessionID, res, schema, p
                 res.status(404).json({errors: err.mapped()});
             }
 
+            // Initialising Chatkit users and rooms
+            initChatKit(lobbyID, schema, chatkit);
+
             // Notifying clients
             pusher.trigger(lobbyID+"-lobby", 'client-notify-lobby-game-start', {});
+
 
             res.status(201).json(lobbyID);
         })
@@ -115,3 +119,66 @@ function lobbyNotExists(lobbyID, res, schema, callback){
     });
 }
 
+
+function initChatKit(lobbyID, schema, chatkit){
+    schema.lobby.findOne({ lobbyID: lobbyID }, (err, lobby)=>{
+
+
+        // Creating array of users
+        let players = [];
+        for(let i = 0; i < lobby.players.length; i++){
+            players.push({playerID: lobby.players[i].playerID, civID: lobby.players[i].civID});
+        }
+
+        // Creating array for PM rooms
+        let rooms = [];
+
+        for( let i = 0; i < lobby.players.length - 1; i++){
+            for( let x = i; x < players.length; x++){
+                let roomName = players[i].playerID + players[x].playerID + "PM";
+                rooms.push({ name: roomName, userIds: [players[i].playerID, players[x].playerID] } )
+            }
+        }
+
+        // Creating users
+        chatkit.createUsers({ users: players })
+            .then((res) => {
+                console.log(res);
+            }).catch((err) => {
+            console.log(err);
+        });
+
+
+
+        //Creating 'global' channel
+        chatkit.createRoom({
+            creatorId: 'server',
+            name: lobby.lobbyID + '-global',
+
+        })
+            .then(() => {
+                console.log(lobby.lobby + "-global: Room created");
+            }).catch((err) => {
+            console.log(err);
+        });
+
+
+        //Creating 'PM' channels between users
+        for(let i = 0; i < rooms.length; i++){
+            chatkit.createRoom({
+                name: rooms[i].name,
+                creatorId: rooms[i].userIds[0],
+                isPrivate: true,
+                userIds: rooms[i].userIds
+            }).then( () => {
+                console.log("Created PM room")
+            }).catch( (err) => {
+                console.log(err);
+            })
+        }
+    })
+
+
+
+
+}

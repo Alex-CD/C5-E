@@ -1,4 +1,4 @@
-module.exports = function(router, schema, pusher) {
+module.exports = function(router, schema, pusher, chatkit) {
 
     const {check, validationResult} = require("express-validator/check");
     const lobbyUtils = require.main.require('./util/lobby');
@@ -64,7 +64,8 @@ module.exports = function(router, schema, pusher) {
                 .isLength({max: 20}).withMessage("lobbyID too long")],
         (req, res)=>{
 
-            lobbyUtils.startGame(req.params.lobbyID, req.params.sessionID, res, schema, pusher)
+            lobbyUtils.startGame(req.params.lobbyID, req.params.sessionID, res, schema, pusher, chatkit)
+
         });
 
 
@@ -101,7 +102,5 @@ module.exports = function(router, schema, pusher) {
         }
 
         lobbyUtils.removePlayer(req.params.lobbyID, req.sessionID, res, schema, pusher);
-
-
     });
 };
