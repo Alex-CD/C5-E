@@ -50,7 +50,7 @@ module.exports = function(router, schema, chatkit, pusher) {
 
 
     // Join into slot while game is underway
-    router.post("/lobby/:lobbyID/joinSlot", [
+    router.post("/game/:lobbyID/joinSlot", [
             check('civName')
                 .exists().withMessage("No civ name supplied")
                 .isAlphanumeric().withMessage("Civ name invalid")
@@ -78,10 +78,10 @@ module.exports = function(router, schema, chatkit, pusher) {
 
 
     // Fetch joinable rooms
-    router.get("lobby/:lobbyID/getRooms",[
-        check('lobbyID')
-            .isAlphanumeric().withMessage("lobbyID not alphanumeric")
-            .isLength({max: 20}).withMessage("lobbyID too long")],
+    router.get("/game/:lobbyID/getRooms",[
+            check('lobbyID')
+                .isAlphanumeric().withMessage("lobbyID not alphanumeric")
+                .isLength({max: 20}).withMessage("lobbyID too long")],
         function (req, res, next){
 
             const errors = validationResult(req);
@@ -91,5 +91,21 @@ module.exports = function(router, schema, chatkit, pusher) {
             }
 
             gameUtils.getRooms(req.params.lobbyID, req.sessionID, res, schema, chatkit)
-        })
+        });
+
+    // Delete lobby (currently with no permissions!
+    router.post("/game/:lobbyID/deleteGame",[
+            check('lobbyID')
+                .isAlphanumeric().withMessage("lobbyID not alphanumeric")
+                .isLength({max: 20}).withMessage("lobbyID too long")],
+        function(req, res, next){
+
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+                return res.status(422).json({errors: errors.mapped()});
+            }
+
+            gameUtils.deleteLobby(req.params.lobbyID, res, schema);
+        });
 };

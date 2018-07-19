@@ -91,6 +91,21 @@ module.exports.startGame = function startGame(lobbyID, sessionID, res, schema, p
         })
 };
 
+
+module.exports.deleteLobby = function deleteLobby(lobbyID, res, schema){
+    schema.lobby.findOneAndDelete({ lobbyID : lobbyID}).then((err)=>{
+        if(err){
+            console.log("Error deleting lobby: " + err);
+            res.status(500).json();
+            return;
+        }
+
+        res.status(200).json();
+    })
+};
+
+
+
 //////////////////////
 // Internal methods //
 //////////////////////
@@ -180,8 +195,4 @@ function initChatKit(lobbyID, schema, chatkit){
             })
         }
     })
-
-
-
-
 }

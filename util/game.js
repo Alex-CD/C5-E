@@ -84,6 +84,58 @@ module.exports.getRooms = function getRooms(lobbyID, sessionID, res, schema, cha
 };
 
 
+module.exports.deleteGame = function deleteGame(lobbyID, res, schema, playerID, chatkit){
+    schema.lobby.findOne({ lobbyID: lobbyID }, (err, lobby)=> {
+        if (err) {
+            console.log("Error finding lobby to delete: " + err);
+            return;
+        }
+
+
+        // Generating list of users to delete
+        let players = [];
+        for (let i = 0; i < lobby.players.length; i++) {
+            players.push({id: lobby.players[i].sessionID, name: lobby.players[i].playerID});
+        }
+
+        // Generating list of rooms to delete
+        let rooms = [];
+
+        for (let i = 0; i < lobby.players.length - 1; i++) {
+            for (let x = i; x < players.length; x++) {
+                let roomName = lobbyID + "-" + players[i].playerID + players[x].playerID + "-PM";
+                rooms.push({name: roomName, userIds: [players[i].sessionID, players[x].sessionID]})
+            }
+        }
+
+        // Deleting users
+        for( let i = 0 ; i < players.length; i++) {
+            chatkit.deleteUser({ id: players[i].sessionID}).then( (err)=>{
+                if(err){
+                    console.log("Error deleting user: " + err);
+                }
+
+
+                // Deleting lobby in database
+                schema.lobby.findOneAndDelete({lobbyID: lobbyID}).then((err) => {
+                    if (err) {
+                        console.log("Error deleting lobby: " + err);
+                        res.status(500).json();
+                        return;
+                    }
+
+                    res.status(200).json();
+                })
+
+
+            });
+        }
+
+    });
+
+};
+
+
 //////////////////////
 // Internal Methods //
 //////////////////////

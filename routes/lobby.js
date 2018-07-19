@@ -103,4 +103,14 @@ module.exports = function(router, schema, pusher, chatkit) {
 
         lobbyUtils.removePlayer(req.params.lobbyID, req.sessionID, res, schema, pusher);
     });
+
+
+    router.post('/lobby/:lobbyID/deleteLobby', [
+            check('lobbyID')
+                .isAlphanumeric().withMessage("Lobby name must be alphanumeric.")
+                .isLength({max: 20}).withMessage("Lobby name too long!")],
+        function(req,res){
+
+            lobbyUtils.deleteLobby(req.params.lobbyID, res, schema);
+        });
 };
