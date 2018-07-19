@@ -122,12 +122,15 @@ function lobbyNotExists(lobbyID, res, schema, callback){
 
 function initChatKit(lobbyID, schema, chatkit){
     schema.lobby.findOne({ lobbyID: lobbyID }, (err, lobby)=>{
-
+        if(err){
+            console.log("Error initialising lobby: " + err);
+            return;
+        }
 
         // Creating array of users
         let players = [];
         for(let i = 0; i < lobby.players.length; i++){
-            players.push({playerID: lobby.players[i].playerID, civID: lobby.players[i].civID});
+            players.push({id: lobby.players[i].sessionID, name: lobby.players[i].playerID});
         }
 
         // Creating array for PM rooms
@@ -135,8 +138,8 @@ function initChatKit(lobbyID, schema, chatkit){
 
         for( let i = 0; i < lobby.players.length - 1; i++){
             for( let x = i; x < players.length; x++){
-                let roomName = players[i].playerID + players[x].playerID + "PM";
-                rooms.push({ name: roomName, userIds: [players[i].playerID, players[x].playerID] } )
+                let roomName = lobbyID + "-" + players[i].playerID + players[x].playerID + "-PM";
+                rooms.push({ name: roomName, userIds: [players[i].sessionID, players[x].sessionID] } )
             }
         }
 
@@ -159,7 +162,7 @@ function initChatKit(lobbyID, schema, chatkit){
             .then(() => {
                 console.log(lobby.lobby + "-global: Room created");
             }).catch((err) => {
-            console.log(err);
+            console.log("Error creating global chat: " + err);
         });
 
 
