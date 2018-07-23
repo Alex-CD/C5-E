@@ -1,13 +1,12 @@
 
 module.exports = function(router, schema, chatkit, pusher) {
+    const path = require('path');
     const {check, validationResult} = require("express-validator/check");
     const gameUtils = require.main.require('./util/game');
 
     // Load game page
     router.get('/game', function (req, res, next) {
-        res.writeHead(200, {"Content-Type": "text/html"});
-        res.write("Load game page");
-        res.end();
+        res.sendFile(path.resolve("./views/game.html"));
     });
 
 

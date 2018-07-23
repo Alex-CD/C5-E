@@ -1,14 +1,12 @@
 module.exports = function(router, schema, pusher, chatkit) {
 
+    const path = require('path');
     const {check, validationResult} = require("express-validator/check");
     const lobbyUtils = require.main.require('./util/lobby');
 
-
     // Load lobby page
     router.get('/lobby', function (req, res, next) {
-        res.writeHead(200, {"Content-Type": "text/html"});
-        res.write("Load lobby page here");
-        res.end();
+        res.sendFile(path.resolve("./views/lobby.html"));
     });
 
 

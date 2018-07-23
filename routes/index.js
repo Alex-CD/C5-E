@@ -1,16 +1,13 @@
 module.exports = function(router) {
+    const path = require('path');
 
     // Homepage
     router.get('/', function (req, res, next) {
-        res.writeHead(200, {"Content-Type": "text/html"});
-        res.write("Homepage");
-        res.end();
+        res.sendFile(path.resolve("./views/index.html"));
     });
 
     // About page
     router.get('/about', function (req, res, next) {
-        res.writeHead(200, {"Content-Type": "text/html"});
-        res.write("About");
-        res.end();
+        res.sendFile(path.resolve("./views/about.html"));
     });
 };
