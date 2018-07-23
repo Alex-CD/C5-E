@@ -13,8 +13,4 @@ module.exports = function(router) {
         res.write("About");
         res.end();
     });
-
-
-
-
 };

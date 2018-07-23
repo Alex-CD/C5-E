@@ -93,7 +93,7 @@ module.exports = function(router, schema, chatkit, pusher) {
             gameUtils.getRooms(req.params.lobbyID, req.sessionID, res, schema, chatkit)
         });
 
-    // Delete lobby (currently with no permissions!
+    // Delete lobby (currently with no permissions)!
     router.post("/game/:lobbyID/deleteGame",[
             check('lobbyID')
                 .isAlphanumeric().withMessage("lobbyID not alphanumeric")
