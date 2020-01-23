@@ -10,7 +10,7 @@ A browser-based metagame system for Civ5 - effectively a fancy chat system with 
 1. Global chat system 
 2. Alliances (and alliance chats)
 3. Ability to [denounce]() human players in global chat
-4.
+4. Multiple sessions 
 
 ## Installation and setup
 

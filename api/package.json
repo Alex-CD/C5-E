@@ -1,0 +1,30 @@
+{
+  "name": "c5eapi",
+  "version": "0.0.1",
+  "description": "",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "mocha": "^7.0.0"
+  },
+  "scripts": {
+    "start":"node app.js",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alex-CD/C5-E.git"
+  },
+  "author": "Alexander Clarke",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Alex-CD/C5-E/issues"
+  },
+  "homepage": "https://github.com/Alex-CD/C5-E#readme"
+}
