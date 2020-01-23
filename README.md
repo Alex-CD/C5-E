@@ -1,54 +1,16 @@
 # C5-E
 
-A web-based metagame system for Civ5. Makes your Civ Sessions better! 
-C5-E doesn't interact with your game directly - it's designed for use on the steam overlay.
+A browser-based metagame system for Civ5 - effectively a fancy chat system with alliance management features.
 
-
-Civilisation 5 is owned by 2K Games, which C5-E has no affiliation with.
-
-
-Built with Node.js and Pusher
+(Civilisation 5 is owned by 2K Games, please don't sue me for trademark infringement)
 
 
 ## Features
 
-I'll be implementing these in the order shown on this list.
-You'll be able turn off any of these features if you want.
-
-If things go well, I'll implement the stretch goals too.
-
-
-
- 
-#### 1. Chat
-The default chat system is clunky, and not that great.
-
-The heart of the concept is a really useful chat system. 
-You'll be able to send anonymous messages, issue global announcements, and chat with your allies.
-
-
-#### 2.Alliances
-Tired of not knowing who has a non-aggression pact with who?
-
-Join an alliance! You'll be able to vote on actions to be taken by the entire group, and
-
-
-#### 3. Wildcards
-Balance your game with wildcards - Randomly assigned challenges to complete during your game.
-Assign more wildwards to more experienced players as a handicap.
-
-
-#### 4. Randomised Win Conditions
-
-It'll pick your win condition for you.
-Who's ready for culture victory Babylon?
-
-#### (stretch goal) 5. Permanent Session storage
-
-Allows you to store and resume sessions
-
-#### (stretch goal) 6. Drinking game mode
-Adds alcoholic beverages ;)
+1. Global chat system 
+2. Alliances (and alliance chats)
+3. Ability to [denounce]() human players in global chat
+4.
 
 ## Installation and setup
 
