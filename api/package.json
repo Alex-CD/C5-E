@@ -8,13 +8,16 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "moment": "^2.24.0",
+    "redis": "^2.8.0",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
-    "mocha": "^7.0.0"
+    "chai": "^4.2.0",
+    "mocha": "^7.0.1"
   },
   "scripts": {
-    "start":"node app.js",
+    "start": "node app.js",
     "test": "mocha"
   },
   "repository": {
