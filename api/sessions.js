@@ -7,27 +7,21 @@ module.exports = class Session {
         this.redis = redis;
     }
 
-    createSession(sessionName, sessionPassword, creatorIP, callback){
+    async createSession(sessionName, sessionPassword, creatorIP){
         var queryText = "";
         this.db.query('', {sessionName, sessionPassword, creatorIP, callback})
-        callback();
     }
 
-    joinSession(callback){
-        
-        callback();
+    async joinSession(){
     }
 
-    getSession(callback){
-        callback();
+    async getSession(){
     }
 
-    leaveSession(callback){
-        callback();
+    async leaveSession(){
     }
 
-    kickUsers(callback){
-        callback();
+    async kickUsers(){
     }
 
 }
