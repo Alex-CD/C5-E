@@ -5,11 +5,11 @@ jobs:
   build-and-test-api:
     executor:
       name: node/default
-    working_directory: ~/api
     steps:
       - checkout
       - node/with-cache:
           steps:
+            - run: cd api
             - run: npm install
             - run: npm test
 workflows:
